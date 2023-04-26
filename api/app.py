@@ -48,7 +48,6 @@ def extract_text():
     Returns:
         JSON: Extracted text from the image.
     """
-    app.logger.debug('TESTING')
     try:
         # Get the uploaded file from the request
         image_file = request.files['image']
@@ -82,7 +81,6 @@ def extract_text():
         n_texts = len(texts)
         messages = []
         for i in range(n_texts):
-            app.logger.debug('TEXT: {}, COORD: {}, MEAN: {}'.format(texts[i], x_coords[i], x_mean))
             message = {}
             message['id'] = i
             message['text'] = texts[i].strip()
@@ -129,7 +127,6 @@ def generate_responses():
         response['text'] = texts[i].strip()
         if len(response['text']) > 0:
             responses.append(response)
-    app.logger.debug(responses)
     return jsonify(responses), 200
 
 if __name__ == '__main__':

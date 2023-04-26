@@ -113,13 +113,13 @@ def generate_responses():
     # prompts.append(prompt_4)
 
     messages=[
-        {"role": "system", "content": "You are an AI assistant helping with Tinder and Bumble conversations. You will generate witty responses for Person #2, a young adult who is looking to attract a partner. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."},
+        {"role": "system", "content": "You are an AI assistant helping with Tinder and Bumble conversations. You will generate witty responses for Person #2, a teenager who would like to date Person #1. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."},
         {"role": "system", "content": format_conversation(conversation)},
-        {"role": "system", "content": "Generate four unique, witty, and flirtatious responses that include jokes, puns, sarcasm, and playful banter. The responses should sound like the viral conversations we see on dating apps like Tinder and Bumble. Keep the tone lighthearted and playful, and make sure the responses are appropriate for a teenage audience. Also, keep the responses one sentence or shorter. "},
+        {"role": "system", "content": "Generate four unique, witty, and flirtatious responses that include jokes, sarcasm, and playful banter. The responses should sound like the viral conversations we see on dating apps like Tinder and Bumble. Each response should be a sentence or shorter and don't be too specific in your wording."},
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []
-    text = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=messages, temperature=0.7, max_tokens=3500)['choices'][0]['message']['content']
+    text = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=messages, temperature=0.9, max_tokens=3500)['choices'][0]['message']['content']
     texts = text.split('--')
     for i in range(len(texts)):
         response = {}

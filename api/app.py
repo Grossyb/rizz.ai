@@ -54,7 +54,8 @@ def extract_text():
         image_file = request.files['image']
 
         # Open the image
-        image = Image.open(image_file)
+        # image = Image.open(image_file)
+        image = cv2.imread(image_file, cv2.IMREAD_GRAYSCALE)
 
         # Perform OCR using Tesseract
         d = pytesseract.image_to_data(image, output_type=Output.DICT)

@@ -48,7 +48,7 @@ def extract_text():
     Returns:
         JSON: Extracted text from the image.
     """
-    pytesseract.pytesseract.tesseract_cmd = r'/opt/homebrew/bin/tesseract'
+    app.logger.debug('TESTING')
     try:
         # Get the uploaded file from the request
         image_file = request.files['image']

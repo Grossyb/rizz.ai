@@ -92,6 +92,9 @@ def extract_text():
             else:
                 messages.append(message)
 
+        for message in messages:
+            app.logger.debug(message)
+
         # Return the extracted text as JSON
         return jsonify(messages), 200
     except Exception as e:

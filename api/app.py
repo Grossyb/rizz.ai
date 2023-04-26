@@ -22,14 +22,14 @@ def format_conversation(conversation):
     return formatted_conversation
 
 def generate_prompt(messages, tone):
-    prompt = "You are an AI assistant helping with Tinder and Bumble conversations. You will generate witty responses for Person #2, a young adult who is looking to attract a partner. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."
+    prompt = "You are an AI assistant helping with Tinder and Bumble conversations. You will generate responses for Person #2, a teenager who is looking to attract a partner. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."
     for message in messages:
         if message['sender'] == "you":
             prompt += "Person #2: {}\n".format(message['text'])
         else:
             prompt += "Person #1: {}\n".format(message['text'])
 
-    prompt += "\nGenerate a response for Person #2 that is {}. Be clever yet concise in your response. The response should based on the conversation context and tone, and should be suitable for Person #2 to send in the conversation.".format(tone)
+    prompt += "\nGenerate a unique, witty, and flirtatious response that includes jokes, puns, sarcasm, or playful banter. The response should sound like the viral conversations we see on dating apps like Tinder and Bumble. Keep the tone lighthearted and playful, and make sure the responses are appropriate for a teenage audience."
     return prompt
 
 def check_word(text):
@@ -115,7 +115,7 @@ def generate_responses():
     messages=[
         {"role": "system", "content": "You are an AI assistant helping with Tinder and Bumble conversations. You will generate witty responses for Person #2, a young adult who is looking to attract a partner. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."},
         {"role": "system", "content": format_conversation(conversation)},
-        {"role": "system", "content": "Generate four witty and unique responses for Person #2 that make sense as the next text in the conversation. Keep the responses a sentence or shorter and do not include parentheses. Be clever! Your responses can be flirtatious, sarcastic and humorous, or whatever you find appropriate."},
+        {"role": "system", "content": "Generate four unique, witty, and flirtatious responses that include jokes, puns, sarcasm, and playful banter. The responses should sound like the viral conversations we see on dating apps like Tinder and Bumble. Keep the tone lighthearted and playful, and make sure the responses are appropriate for a teenage audience."},
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []

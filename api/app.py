@@ -115,7 +115,7 @@ def generate_responses():
     messages=[
         {"role": "system", "content": "You are an AI assistant helping with Tinder and Bumble conversations. You will generate witty responses for Person #2, a young adult who is looking to attract a partner. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."},
         {"role": "system", "content": format_conversation(conversation)},
-        {"role": "system", "content": "Generate four witty and unique responses for Person #2 that are sarcastic or flirtatious, and make sense as the next text in the conversation. Keep the responses a sentence or shorter and do not include parentheses."},
+        {"role": "system", "content": "Generate four witty and unique responses for Person #2 that make sense as the next text in the conversation. Keep the responses a sentence or shorter and do not include parentheses. Be clever! Your responses can be flirtatious, sarcastic and humorous, or whatever you find appropriate."},
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []

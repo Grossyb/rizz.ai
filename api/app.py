@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from PIL import Image
+from PIL import Image, ImageOps
 import pytesseract
 from pytesseract import Output
 import cv2
@@ -53,8 +53,8 @@ def extract_text():
         image_file = request.files['image']
 
         # Open the image
-        # image = Image.open(image_file)
-        image = cv2.imread(image_file, cv2.IMREAD_GRAYSCALE)
+        image = Image.open(image_file)
+        image = ImageOps.grayscale(image)
 
         # Perform OCR using Tesseract
         d = pytesseract.image_to_data(image, output_type=Output.DICT)

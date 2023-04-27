@@ -21,17 +21,6 @@ def format_conversation(conversation):
             formatted_conversation += "Person #1: {}\n".format(message['text'])
     return formatted_conversation
 
-def generate_prompt(messages, tone):
-    prompt = "You are an AI assistant helping with Tinder and Bumble conversations. You will generate responses for Person #2, a teenager who is looking to attract a partner. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."
-    for message in messages:
-        if message['sender'] == "you":
-            prompt += "Person #2: {}\n".format(message['text'])
-        else:
-            prompt += "Person #1: {}\n".format(message['text'])
-
-    prompt += "\nGenerate a unique, witty, and flirtatious response that includes jokes, puns, sarcasm, or playful banter. The response should sound like the viral conversations we see on dating apps like Tinder and Bumble. Keep the tone lighthearted and playful, and make sure the responses are appropriate for a teenage audience."
-    return prompt
-
 def only_special(text):
     count = 0
     for char in text:
@@ -115,21 +104,11 @@ def extract_text():
 @app.route('/generate_responses', methods=['POST'])
 def generate_responses():
     conversation = request.json['conversation']
-    # prompts = []
-    # prompt_1 = generate_prompt(messages=messages, tone="mysterious")
-    # prompt_2 = generate_prompt(messages=messages, tone="flirtatious")
-    # prompt_3 = generate_prompt(messages=messages, tone="funny and humorous. Surprise Person #1 with a clever comeback or joke")
-    # prompt_4 = generate_prompt(messages=messages, tone="teasing")
-    #
-    # prompts.append(prompt_1)
-    # prompts.append(prompt_2)
-    # prompts.append(prompt_3)
-    # prompts.append(prompt_4)
 
     messages=[
-        {"role": "system", "content": "You are an AI assistant helping with Tinder and Bumble conversations. You will generate witty responses for Person #2, a teenager who would like to date Person #1. Ignore any text messages that do not look like typical text messages, such as messages that might be cell service info or labels from a chat UI."},
+        {"role": "system", "content": "You are an AI dating assistant that analyzes conversations and tries to help Person #2, a teenager who would like to date Person #1. You will generate witty responses for Person #2. Ignore any messages in the conversation that look like gibberish."},
         {"role": "system", "content": format_conversation(conversation)},
-        {"role": "system", "content": "Generate four unique, witty, and flirtatious responses that include jokes, sarcasm, and playful banter. The responses should sound like the viral conversations we see on dating apps like Tinder and Bumble. Each response should be a sentence or shorter and don't be too specific in your wording."},
+        {"role": "system", "content": "Generate four unique, witty, and flirtatious responses that include jokes, sarcasm, and playful banter. The responses should sound like the viral conversations seen on dating apps like Tinder and Bumble. Each response should be a sentence or shorter and don't be say anything too specific."},
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []

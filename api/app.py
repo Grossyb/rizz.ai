@@ -108,9 +108,6 @@ def extract_text():
             else:
                 messages.append(message)
 
-        for message in messages:
-            app.logger.debug(message)
-
         # Return the extracted text as JSON
         return jsonify(messages), 200
     except Exception as e:
@@ -145,6 +142,7 @@ def generate_responses():
         response['id'] = i
         response['text'] = texts[i].strip()
         if len(response['text']) > 0 and is_valid_text(response['text']):
+            app.logger.debug(response['text'])
             responses.append(response)
     return jsonify(responses), 200
 

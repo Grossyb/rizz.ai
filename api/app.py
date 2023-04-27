@@ -139,7 +139,8 @@ def generate_responses():
         response = {}
         response['id'] = i
         response['text'] = texts[i].strip()
-        responses.append(response)
+        if len(response['text']) > 0:
+            responses.append(response)
     return jsonify(responses), 200
 
 if __name__ == '__main__':

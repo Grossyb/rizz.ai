@@ -32,11 +32,27 @@ def generate_prompt(messages, tone):
     prompt += "\nGenerate a unique, witty, and flirtatious response that includes jokes, puns, sarcasm, or playful banter. The response should sound like the viral conversations we see on dating apps like Tinder and Bumble. Keep the tone lighthearted and playful, and make sure the responses are appropriate for a teenage audience."
     return prompt
 
-def check_word(text):
-    m = re.match("\w+[!?,().]+$", text)
-    if m is not None:
+def only_special(text):
+    count = 0
+    for char in text:
+        if not char.isalpha():
+            count += 1
+
+    return True if count == len(text) else False
+
+def is_valid_text(text):
+    if len(text) == 0:
+        return False
+    if text.isspace():
+        return False
+    elif 'iMessage' in text:
+        return False
+    elif '@' in text:
+        return False
+    elif only_special(text):
+        return False
+    else:
         return True
-    return False
 
 @app.route('/extract_text', methods=['POST'])
 def extract_text():
@@ -128,7 +144,7 @@ def generate_responses():
         response = {}
         response['id'] = i
         response['text'] = texts[i].strip()
-        if len(response['text']) > 0:
+        if len(response['text']) > 0 and is_valid_text(response['text']):
             responses.append(response)
     return jsonify(responses), 200
 

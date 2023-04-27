@@ -106,9 +106,9 @@ def generate_responses():
     conversation = request.json['conversation']
 
     messages=[
-        {"role": "system", "content": "You are an AI dating assistant that analyzes conversations and tries to help Person #2, a teenager who would like to date Person #1. You will generate witty responses for Person #2. Ignore any messages in the conversation that look like gibberish."},
+        {"role": "system", "content": "You are an AI dating assistant that is a master in charming or seducing a potential romantic partner. Analyze the conversation below and pretend you are Person #2. Ignore any messages in the conversation that look like gibberish."},
         {"role": "system", "content": format_conversation(conversation)},
-        {"role": "system", "content": "Generate four unique responses that include jokes, sarcasm, or playful banter. Make each response more and more flirtacious. The responses should sound like the viral conversations seen on dating apps like Tinder and Bumble. Each response should be a sentence or shorter and don't be say anything too specific."},
+        {"role": "system", "content": "Generate four unique responses to the conversation above that give Person #2 the best chance at seducing Person #1. Each response should be a sentence or shorter. and you can use jokes, sarcasm, wit, or playful banter in each response. Make each response more charming and flirtatious."},
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []

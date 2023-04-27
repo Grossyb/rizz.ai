@@ -108,7 +108,7 @@ def generate_responses():
     messages=[
         {"role": "system", "content": "You are an AI dating assistant that analyzes conversations and tries to help Person #2, a teenager who would like to date Person #1. You will generate witty responses for Person #2. Ignore any messages in the conversation that look like gibberish."},
         {"role": "system", "content": format_conversation(conversation)},
-        {"role": "system", "content": "Generate four unique, witty, and flirtatious responses that include jokes, sarcasm, and playful banter. The responses should sound like the viral conversations seen on dating apps like Tinder and Bumble. Each response should be a sentence or shorter and don't be say anything too specific."},
+        {"role": "system", "content": "Generate four unique responses that include jokes, sarcasm, or playful banter. Make each response more and more flirtacious. The responses should sound like the viral conversations seen on dating apps like Tinder and Bumble. Each response should be a sentence or shorter and don't be say anything too specific."},
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []

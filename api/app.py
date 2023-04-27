@@ -45,6 +45,8 @@ def is_valid_text(text):
         return False
     if text.isspace():
         return False
+    elif text == 'Sent' or text == 'Delivered':
+        return False
     elif 'iMessage' in text:
         return False
     elif '@' in text:
@@ -101,11 +103,7 @@ def extract_text():
             message['id'] = i
             message['text'] = texts[i].strip()
             message['sender'] = 'you' if x_coords[i] > x_mean else 'other'
-            if len(message['text'].replace(' ', '')) == 0:
-                continue
-            elif message['text'] == 'Sent' or message['text'] == 'Delivered':
-                continue
-            else:
+            if is_valid_text(message['text']):
                 messages.append(message)
 
         # Return the extracted text as JSON
@@ -141,9 +139,7 @@ def generate_responses():
         response = {}
         response['id'] = i
         response['text'] = texts[i].strip()
-        if len(response['text']) > 0 and is_valid_text(response['text']):
-            app.logger.debug(response['text'])
-            responses.append(response)
+        responses.append(response)
     return jsonify(responses), 200
 
 if __name__ == '__main__':

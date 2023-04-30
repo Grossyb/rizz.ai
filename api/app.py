@@ -93,6 +93,7 @@ def extract_text():
             message['text'] = texts[i].strip()
             message['sender'] = 'you' if x_coords[i] > x_mean else 'other'
             if is_valid_text(message['text']):
+                app.logger.debug(message['text'])
                 messages.append(message)
 
         # Return the extracted text as JSON

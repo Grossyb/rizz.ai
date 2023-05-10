@@ -45,6 +45,10 @@ def is_gibberish(text):
 def is_valid_text(text):
     if is_gibberish(text):
         return False
+    elif '=' in text:
+        return False
+    elif ':' in text:
+        return False
     if text.lower() == 'space':
         return False
     if len(text) == 0:

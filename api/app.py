@@ -29,6 +29,19 @@ def only_special(text):
 
     return True if count == len(text) else False
 
+
+def majority_digits(text):
+    num_digits = 0
+    text = text.strip()
+    for element in text:
+        if element.isdigit():
+            num_digits += 1
+    maj = (len(text) / 4)
+    if num_digits >= maj:
+        return True
+    else:
+        return False
+
 def is_gibberish(text):
     num_gibberish = 0
     elements = text.split(' ')
@@ -47,7 +60,7 @@ def is_valid_text(text):
         return False
     elif '=' in text:
         return False
-    elif ':' in text:
+    elif majority_digits(text):
         return False
     if text.lower() == 'space':
         return False

@@ -1,7 +1,7 @@
 FROM python:3.9.12-slim-bullseye
 
 RUN python -m pip install --upgrade pip
-RUN pip install poetry==1.1.13
+RUN pip install poetry==1.4.2
 COPY poetry.lock pyproject.toml /
 RUN poetry config virtualenvs.create false \
   && poetry install --no-dev --no-interaction --no-ansi

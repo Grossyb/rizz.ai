@@ -29,12 +29,29 @@ def only_special(text):
 
     return True if count == len(text) else False
 
+def is_gibberish(text):
+    num_gibberish = 0
+    elements = text.split(' ')
+    for element in elements:
+        if len(element) < 3:
+            num_gibberish += 1
+    maj = (len(elements) / 2) + 1
+    if num_gibberish >= maj:
+        return True
+    else:
+        return False
+
+
 def is_valid_text(text):
+    if is_gibberish(text):
+        return False
+    if text.lower() == 'space':
+        return False
     if len(text) == 0:
         return False
     if text.isspace():
         return False
-    elif text == 'Sent' or text == 'Delivered':
+    elif text.lower() == 'sent' or text == 'delivered':
         return False
     elif 'iMessage' in text:
         return False

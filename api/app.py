@@ -60,6 +60,8 @@ def is_valid_text(text):
         return False
     elif '=' in text:
         return False
+    elif 'Tre' in text:
+        return False
     elif majority_digits(text):
         return False
     if text.lower() == 'space':

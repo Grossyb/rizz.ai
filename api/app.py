@@ -153,7 +153,7 @@ def generate_responses():
         {"role": "system", "content": "Begin each response with a --"}
     ]
     responses = []
-    text = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=messages, temperature=0.9, max_tokens=3500)['choices'][0]['message']['content']
+    text = openai.ChatCompletion.create(model='gpt-4', messages=messages, temperature=0.9, max_tokens=3500)['choices'][0]['message']['content']
     texts = text.split('--')
     for i in range(len(texts)):
         response = {}

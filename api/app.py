@@ -278,16 +278,7 @@ def get_chart_analysis():
                         "error": "Missing 'result' field in parsed content",
                         "parsed_content": parsed_content
                     }), 500
-                try:
-                    app.logger.debug('DAENARYS')
-                    result_parsed = json.loads(parsed_content["result"])
-                    app.logger.debug('VISERYS')
-                    return jsonify(result_parsed), 200
-                except json.JSONDecodeError:
-                    return jsonify({
-                        "error": "Could not parse JSON from the 'result' field",
-                        "raw_result": parsed_content["result"]
-                    }), 500
+                return jsonify(parsed_content["result"]), 200
             else:
                 return jsonify({
                     "error": "The provided image is not a valid trading chart"

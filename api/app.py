@@ -33,7 +33,7 @@ def get_chart_analysis():
     try:
         data = request.get_json()
         if not data or "base64Image" not in data:
-            return jsonify({"error": "Missing "base64Image" in JSON body."}), 400
+            return jsonify({"error": "Missing 'base64Image' in JSON body."}), 400
 
         base64_image = data["base64Image"]
         prompt = get_txt_file(OPENAI_PROMPT_FILE_PATH)
@@ -268,14 +268,14 @@ def get_chart_analysis():
 
             if "status" not in parsed_content:
                 return jsonify({
-                    "error": "Missing "status" field in parsed content",
+                    "error": "Missing 'status' field in parsed content",
                     "parsed_content": parsed_content
                 }), 500
 
             if parsed_content["status"]:
                 if "result" not in parsed_content:
                     return jsonify({
-                        "error": "Missing "result" field in parsed content",
+                        "error": "Missing 'result' field in parsed content",
                         "parsed_content": parsed_content
                     }), 500
                 try:
@@ -283,7 +283,7 @@ def get_chart_analysis():
                     return jsonify(result_parsed), 200
                 except json.JSONDecodeError:
                     return jsonify({
-                        "error": "Could not parse JSON from the "result" field",
+                        "error": "Could not parse JSON from the 'result' field",
                         "raw_result": parsed_content["result"]
                     }), 500
             else:
@@ -306,7 +306,7 @@ def get_articles():
     try:
         data = request.get_json()
         if not data or "userPrompt" not in data:
-            return jsonify({"error": "Missing "userPrompt" in JSON body."}), 400
+            return jsonify({"error": "Missing 'userPrompt' in JSON body."}), 400
 
         user_prompt = data["userPrompt"]
         prompt = get_txt_file(PERPLEXITY_PROMPT_FILE_PATH)
@@ -336,7 +336,7 @@ def get_articles():
                                         },
                                         "summary": {
                                             "type": "string",
-                                            "description": "A brief summary explaining the article"s relevance to the chart analysis"
+                                            "description": "A brief summary explaining the article's relevance to the chart analysis"
                                         },
                                         "link": {
                                             "type": "string",
@@ -412,7 +412,7 @@ def generate_response():
     try:
         data = request.get_json()
         if not data or "base64Image" not in data:
-            return jsonify({"error": "Missing "base64Image" in request JSON."}), 400
+            return jsonify({"error": "Missing 'base64Image' in request JSON."}), 400
 
         base64_image = data["base64Image"]
 

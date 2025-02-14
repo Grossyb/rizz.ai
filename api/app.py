@@ -13,9 +13,9 @@ CANDLESTICK_OPENAI_API_KEY = os.environ.get('CANDLESTICK_OPENAI_API_KEY')
 RIZZ_OPENAI_API_KEY = os.environ.get('RIZZ_OPENAI_API_KEY')
 PERPLEXITY_API_KEY = os.environ.get('PERPLEXITY_API_KEY')
 
-OPENAI_PROMPT_FILE_PATH = "openai_prompt.txt"
-PERPLEXITY_PROMPT_FILE_PATH = "perplexity_prompt.txt"
-RIZZ_PROMPT_FILE_PATH = "rizz_prompt.txt"
+OPENAI_PROMPT_FILE_PATH = os.environ.get("openai_prompt.txt")
+PERPLEXITY_PROMPT_FILE_PATH = os.environ.get("perplexity_prompt.txt")
+RIZZ_PROMPT_FILE_PATH = os.environ.get("rizz_prompt.txt")
 
 OPENAI_BASE_URL = "https://api.openai.com/v1/chat/completions"
 PERPLEXITY_BASE_URL = "https://api.perplexity.ai/chat/completions"

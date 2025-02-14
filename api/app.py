@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from google.cloud import storage
 from PIL import Image, ImageOps
 import pytesseract
 from pytesseract import Output
@@ -20,9 +21,16 @@ RIZZ_PROMPT_FILE_PATH = os.environ.get("rizz_prompt.txt")
 OPENAI_BASE_URL = "https://api.openai.com/v1/chat/completions"
 PERPLEXITY_BASE_URL = "https://api.perplexity.ai/chat/completions"
 
-def read_prompt(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
-        return f.read()
+
+def get_txt_file(filename):
+    bucket_name = "gen_ai_prompts"
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(filename)
+
+    text = blob.download_as_text()
+    return text
+
 
 @app.route("/getChartAnalysis", methods=["POST"])
 def get_chart_analysis():
@@ -32,7 +40,7 @@ def get_chart_analysis():
             return jsonify({"error": "Missing 'base64Image' in JSON body."}), 400
 
         base64_image = data["base64Image"]
-        prompt = read_prompt("OPENAI_PROMPT_FILE_PATH")
+        prompt = get_txt_file("OPENAI_PROMPT_FILE_PATH")
 
         payload = {
             "model": "gpt-4o-2024-08-06",
@@ -305,7 +313,7 @@ def get_articles():
             return jsonify({"error": "Missing 'userPrompt' in JSON body."}), 400
 
         user_prompt = data["userPrompt"]
-        prompt = read_prompt(PERPLEXITY_PROMPT_FILE_PATH)
+        prompt = get_txt_file(PERPLEXITY_PROMPT_FILE_PATH)
 
         payload = {
             "model": "sonar",
@@ -412,7 +420,7 @@ def generate_response():
 
         base64_image = data["base64Image"]
 
-        rizz_prompt = read_prompt(RIZZ_PROMPT_FILE_PATH)
+        rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
         payload = {
             "model": "gpt-4o-2024-08-06",

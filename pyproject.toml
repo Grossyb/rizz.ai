@@ -12,6 +12,7 @@ Flask = "^2.2.3"
 Pillow = "^9.5.0"
 opencv-python = "^4.7.0.72"
 pytesseract = "^0.3.10"
+google-cloud-storage = "^3.0.0"
 
 
 [build-system]

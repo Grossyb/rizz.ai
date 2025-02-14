@@ -341,7 +341,7 @@ def get_articles():
                                         },
                                         "summary": {
                                             "type": "string",
-                                            "description": "A brief summary explaining the article"s relevance to the chart analysis"
+                                            "description": "A brief summary explaining the article's relevance to the chart analysis"
                                         },
                                         "link": {
                                             "type": "string",

@@ -40,7 +40,7 @@ def get_chart_analysis():
             return jsonify({"error": "Missing 'base64Image' in JSON body."}), 400
 
         base64_image = data["base64Image"]
-        prompt = get_txt_file("OPENAI_PROMPT_FILE_PATH")
+        prompt = get_txt_file(OPENAI_PROMPT_FILE_PATH)
 
         payload = {
             "model": "gpt-4o-2024-08-06",

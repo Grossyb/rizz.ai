@@ -260,6 +260,8 @@ def get_chart_analysis():
             content_str = openai_json["choices"][0]["message"]["content"]
             try:
                 parsed_content = json.loads(content_str)
+                app.logger.debug('JON SNOW')
+                app.logger.debug(parsed_content)
             except json.JSONDecodeError:
                 return jsonify({
                     "error": "Could not parse JSON from OpenAI response",
@@ -273,11 +275,13 @@ def get_chart_analysis():
                 }), 500
 
             if parsed_content["status"]:
+                app.logger.debug('ITS AN IMAGE')
                 if "result" not in parsed_content:
                     return jsonify({
                         "error": "Missing 'result' field in parsed content",
                         "parsed_content": parsed_content
                     }), 500
+                app.logger.debug('DAENARYS')
                 return jsonify(parsed_content["result"]), 200
             else:
                 return jsonify({

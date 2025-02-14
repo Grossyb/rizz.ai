@@ -1,13 +1,7 @@
 from flask import Flask, request, jsonify
 from google.cloud import storage
-from PIL import Image, ImageOps
-import pytesseract
 import requests
-from pytesseract import Output
-import cv2
-import re
 import os
-import openai
 
 app = Flask(__name__)
 

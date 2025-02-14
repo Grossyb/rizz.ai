@@ -277,6 +277,7 @@ def get_chart_analysis():
                 }), 500
 
             if parsed_content["status"]:
+                app.logger.debug('DAENARYS')
                 if "result" not in parsed_content:
                     return jsonify({
                         "error": "Missing 'result' field in parsed content",

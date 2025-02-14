@@ -382,13 +382,8 @@ def get_articles():
             cleaned_content = cleaned_content.replace("`", "")
 
             try:
-                parsed_content = json.loads(cleaned_content)
-                if "articles" not in parsed_content:
-                    return jsonify({
-                        "error": "Missing 'articles' field in parsed content",
-                        "parsed_content": parsed_content
-                    }), 500
-                return jsonify(parsed_content["articles"]), 200
+                parsed = json.loads(cleaned_content)
+                return jsonify(parsed), 200
             except json.JSONDecodeError:
                 return jsonify({
                     "error": "Could not parse JSON from Perplexity response",

@@ -1,7 +1,7 @@
 version: "3"
 services:
   api:
-    image: us-central1-docker.pkg.dev/rizz-384722/rizz-api/python-api
+    image: us-central1-docker.pkg.dev/rizz-384722/rizz-api/rizz-ai
     build:
       context: .
     env_file:

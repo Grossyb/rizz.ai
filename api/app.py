@@ -251,15 +251,19 @@ def get_chart_analysis():
             return jsonify({"error": "OpenAI API error", "details": response.text}), 500
 
         openai_json = response.json()
+        app.debug.logger('JON SNOW')
         if (
             "choices" in openai_json and
             len(openai_json["choices"]) > 0 and
             "message" in openai_json["choices"][0] and
             "content" in openai_json["choices"][0]["message"]
         ):
+            app.debug.logger('CERSEI')
             content_str = openai_json["choices"][0]["message"]["content"]
+            app.debug.logger('JAIME')
             try:
                 parsed_content = json.loads(content_str)
+                app.debug.logger('ROBB STARK')
             except json.JSONDecodeError:
                 return jsonify({
                     "error": "Could not parse JSON from OpenAI response",
@@ -336,7 +340,7 @@ def get_articles():
                                         },
                                         "summary": {
                                             "type": "string",
-                                            "description": "A brief summary explaining the article's relevance to the chart analysis"
+                                            "description": "A brief summary explaining the article"s relevance to the chart analysis"
                                         },
                                         "link": {
                                             "type": "string",

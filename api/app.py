@@ -400,7 +400,7 @@ def get_articles():
 
 
 
-@app.route("/generateResponse", methods=["POST"])
+@app.route("/getResponses", methods=["POST"])
 def generate_response():
     try:
         data = request.get_json()
@@ -435,29 +435,36 @@ def generate_response():
             "response_format": {
                 "type": "json_schema",
                 "json_schema": {
-                    "name": "rizz_responses",
+                    "name": "responses",
                     "schema": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "text": {
-                                    "type": "string",
-                                    "description": "The AI-generated response text."
-                                },
-                                "category": {
-                                    "type": "string",
-                                    "enum": ["rizz", "romantic", "nsfw", "witty"],
-                                    "description": "The category of the response."
+                        "type": "object",
+                        "properties": {
+                            "articles": {
+                                "type": "array",
+                                "description": "List of responses",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "text": {
+                                            "type": "string",
+                                            "description": "Dating app convo response"
+                                        },
+                                        "category": {
+                                            "type": "string",
+                                            "enum": ["rizz", "nsfw", "romantic", "witty"],
+                                            "description": "Category of the response"
+                                        },
+                                    },
+                                    "required": ["text", "category"],
+                                    "additionalProperties": False
                                 }
-                            },
-                            "required": ["text", "category"],
-                            "additionalProperties": False
-                        }
-                    },
-                    "strict": True
+                            }
+                        },
+                        "required": ["articles"],
+                        "additionalProperties": False
+                    }
                 }
-            }
+            },
         }
 
         headers = {

@@ -439,7 +439,7 @@ def generate_response():
                     "schema": {
                         "type": "object",
                         "properties": {
-                            "articles": {
+                            "responses": {
                                 "type": "array",
                                 "description": "List of responses",
                                 "items": {

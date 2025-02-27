@@ -383,6 +383,8 @@ def get_articles():
 
             try:
                 parsed = json.loads(cleaned_content)
+                app.logger.debug(parsed)
+                app.logger.debug('LORD SNOWWWWW')
                 return jsonify(parsed), 200
             except json.JSONDecodeError:
                 return jsonify({

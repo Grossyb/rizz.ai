@@ -251,6 +251,8 @@ def get_chart_analysis():
             return jsonify({"error": "OpenAI API error", "details": response.text}), 500
 
         openai_json = response.json()
+        app.logger.debug('LORD SNOWWWW')
+        app.logger.debug(openai_json)
         if (
             "choices" in openai_json and
             len(openai_json["choices"]) > 0 and
@@ -383,8 +385,6 @@ def get_articles():
 
             try:
                 parsed = json.loads(cleaned_content)
-                app.logger.debug(parsed)
-                app.logger.debug('LORD SNOWWWWW')
                 return jsonify(parsed), 200
             except json.JSONDecodeError:
                 return jsonify({

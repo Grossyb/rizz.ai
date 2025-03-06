@@ -39,7 +39,7 @@ def get_chart_analysis():
         prompt = get_txt_file(OPENAI_PROMPT_FILE_PATH)
 
         payload = {
-            "model": "gpt-4o-2024-08-06",
+            "model": "gpt-4o-mini-2024-07-18",
             "temperature": 0.5,
             "messages": [
                 {
@@ -414,7 +414,7 @@ def generate_response():
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
         payload = {
-            "model": "gpt-4o-2024-08-06",
+            "model": "gpt-4o-mini-2024-07-18",
             "temperature": 0.9,
             "messages": [
                 {

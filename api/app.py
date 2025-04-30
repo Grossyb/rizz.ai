@@ -334,7 +334,7 @@ def get_articles():
                                             "description": "A brief summary explaining the article's relevance to the chart analysis"
                                         },
                                         "link": {
-                                            "type": "string"
+                                            "type": "string",
                                             "description": "The link to the news article"
                                         }
                                     },

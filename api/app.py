@@ -116,12 +116,12 @@ def get_chart_analysis():
                                                 "properties": {
                                                     "supportLevels": {
                                                         "type": "array",
-                                                        "items": {"type": "number"},
-                                                        "description": "List of price points (1-2) representing support levels present in input image"
+                                                        "items": {"type": "string"},
+                                                        "description": "List of price points (1-2) representing support levels present in input image."
                                                     },
                                                     "resistanceLevels": {
                                                         "type": "array",
-                                                        "items": {"type": "number"},
+                                                        "items": {"type": "string"},
                                                         "description": "List of price points (1-2) representing resistance levels present in input image"
                                                     },
                                                     "analysis": {
@@ -202,11 +202,11 @@ def get_chart_analysis():
                                                 "type": "object",
                                                 "properties": {
                                                     "entryTargetPrice": {
-                                                        "type": "number",
+                                                        "type": "string",
                                                         "description": "Recommended full price price for trade entry"
                                                     },
                                                     "stopLossPrice": {
-                                                        "type": "number",
+                                                        "type": "string",
                                                         "description": "Recommended full price for stop loss"
                                                     },
                                                     "analysis": {

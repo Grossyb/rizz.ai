@@ -251,7 +251,6 @@ def get_chart_analysis():
             return jsonify({"error": "OpenAI API error", "details": response.text}), 500
 
         openai_json = response.json()
-        app.logger.debug(openai_json)
         if (
             "choices" in openai_json and
             len(openai_json["choices"]) > 0 and
@@ -363,9 +362,6 @@ def get_articles():
         }
 
         response = requests.post(PERPLEXITY_BASE_URL, json=payload, headers=headers, timeout=30)
-        app.logger.debug("STATUS CODE {}".format(response.status_code))
-        app.logger.debug("TEXT {}".format(response.text))
-        app.logger.debug("REASON {}".format(response.reason))
         if response.status_code != 200:
             return jsonify({"error": "Perplexity API error", "details": response.text}), 500
 

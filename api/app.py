@@ -350,7 +350,6 @@ def get_articles():
             },
             "temperature": 0.0,
             "top_p": 0.9,
-            "search_domain_filter": ["perplexity.ai"],
             "return_images": False,
             "return_related_questions": False,
             "search_recency_filter": "month",

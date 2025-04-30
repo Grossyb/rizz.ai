@@ -117,12 +117,12 @@ def get_chart_analysis():
                                                     "supportLevels": {
                                                         "type": "array",
                                                         "items": {"type": "number"},
-                                                        "description": "List of full price points representing support levels present in input image"
+                                                        "description": "List of price points (1-2) representing support levels present in input image"
                                                     },
                                                     "resistanceLevels": {
                                                         "type": "array",
                                                         "items": {"type": "number"},
-                                                        "description": "List of full price points representing resistance levels present in input image"
+                                                        "description": "List of price points (1-2) representing resistance levels present in input image"
                                                     },
                                                     "analysis": {
                                                         "type": "string",
@@ -306,8 +306,6 @@ def get_articles():
         user_prompt = data["userPrompt"]
         prompt = get_txt_file(PERPLEXITY_PROMPT_FILE_PATH)
 
-        app.logger.debug("DEBUG POINT 1")
-
         payload = {
             "model": "sonar",
             "messages": [
@@ -362,24 +360,19 @@ def get_articles():
             "presence_penalty": 0,
             "frequency_penalty": 1
         }
-
-        app.logger.debug("DEBUG POINT 2")
-
         headers = {
             "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
             "Content-Type": "application/json"
         }
 
-        app.logger.debug("DEBUG POINT 3")
-
         response = requests.post(PERPLEXITY_BASE_URL, json=payload, headers=headers, timeout=30)
         app.logger.debug("STATUS CODE {}".format(response.status_code))
+        app.logger.debug("TEXT {}".format(response.text))
+        app.logger.debug("REASON {}".format(response.reason))
         if response.status_code != 200:
-            app.logger.debug("DEBUG POINT 5")
             return jsonify({"error": "Perplexity API error", "details": response.text}), 500
 
         response_json = response.json()
-        app.logger.debug("DEBUG POINT 6")
         if ("choices" in response_json and
             isinstance(response_json["choices"], list) and
             len(response_json["choices"]) > 0 and
@@ -396,7 +389,6 @@ def get_articles():
                 parsed = json.loads(cleaned_content)
                 return jsonify(parsed), 200
             except json.JSONDecodeError:
-                app.logger.debug("DEBUG POINT 7")
                 return jsonify({
                     "error": "Could not parse JSON from Perplexity response",
                     "raw_content": content_str

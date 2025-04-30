@@ -68,14 +68,14 @@ def get_chart_analysis():
                         "properties": {
                             "status": {
                                 "type": "boolean",
-                                "description": "Indicates if the uploaded image is a trading chart (true) or not (false)."
+                                "description": "Indicates if the uploaded image is a trading chart (true) or not (false)"
                             },
                             "result": {
                                 "type": "object",
                                 "properties": {
                                     "ticker": {
                                         "type": "string",
-                                        "description": "Ticker symbol present in input image (i.e. BTC, TSLA)."
+                                        "description": "Ticker symbol present in input image"
                                     },
                                     "features": {
                                         "type": "object",
@@ -86,17 +86,17 @@ def get_chart_analysis():
                                                     "trendDirection": {
                                                         "type": "string",
                                                         "enum": ["up", "down", "sideways"],
-                                                        "description": "Overall trend direction of the asset."
+                                                        "description": "Overall trend direction of the asset"
                                                     },
                                                     "trendStrength": {
                                                         "type": "string",
                                                         "enum": ["weak", "moderate", "strong"],
-                                                        "description": "Strength of the detected trend."
+                                                        "description": "Strength of the detected trend"
                                                     },
                                                     "volume": {
                                                         "type": "string",
                                                         "enum": ["low", "medium", "high"],
-                                                        "description": "Relative trading volume of the asset."
+                                                        "description": "Relative trading volume of the asset"
                                                     },
                                                     "volatility": {
                                                         "type": "string",
@@ -105,7 +105,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Expert breakdown of price structure, liquidity zones, trend continuation vs. exhaustion, and key market behaviors."
+                                                        "description": "Expert breakdown of price, market structure, liquidity zones, trend continuation vs. exhaustion, and key market behaviors"
                                                     }
                                                 },
                                                 "required": ["trendDirection", "trendStrength", "volume", "volatility", "analysis"],
@@ -117,16 +117,16 @@ def get_chart_analysis():
                                                     "supportLevels": {
                                                         "type": "array",
                                                         "items": {"type": "number"},
-                                                        "description": "List of decimal price points representing support levels."
+                                                        "description": "List of full USD price points representing support levels present in input image"
                                                     },
                                                     "resistanceLevels": {
                                                         "type": "array",
                                                         "items": {"type": "number"},
-                                                        "description": "List of decimal price points representing resistance levels."
+                                                        "description": "List of full USD price points representing resistance levels present in input image"
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Analysis of support and resistance strength, alignment with liquidity zones, and expected reactions."
+                                                        "description": "Analysis of support and resistance levels, alignment with liquidity zones, and expected reactions"
                                                     }
                                                 },
                                                 "required": ["supportLevels", "resistanceLevels", "analysis"],
@@ -146,7 +146,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Explanation of how the pattern fits into the trend, including whether it signals continuation, exhaustion, or reversal."
+                                                                    "description": "Explanation of how the pattern fits into the trend, including whether it signals continuation, exhaustion, or reversal"
                                                                 }
                                                             },
                                                             "required": ["patternName", "analysis"],
@@ -167,11 +167,11 @@ def get_chart_analysis():
                                                             "properties": {
                                                                 "indicatorName": {
                                                                     "type": "string",
-                                                                    "description": "Type of indicator used in the analysis (i.e., RSI, MACD, SMA, Bollinger Bands)."
+                                                                    "description": "Type of indicator present in the input image"
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Analysis of how the indicator interacts with price action, key levels, and potential confluence with other signals."
+                                                                    "description": "Analysis of how the indicator interacts with price action, key levels, and potential confluence with other signals"
                                                                 }
                                                             },
                                                             "required": ["indicatorName", "analysis"],
@@ -188,11 +188,11 @@ def get_chart_analysis():
                                                     "timeHorizon": {
                                                         "type": "string",
                                                         "enum": ["short_term", "medium_term", "long_term"],
-                                                        "description": "Timeframe for the market prediction."
+                                                        "description": "Timeframe for the market prediction"
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Prediction of price action based on technical patterns and trends."
+                                                        "description": "Prediction of price action based on technical patterns and trends"
                                                     }
                                                 },
                                                 "required": ["timeHorizon", "analysis"],
@@ -203,15 +203,15 @@ def get_chart_analysis():
                                                 "properties": {
                                                     "entryTargetPrice": {
                                                         "type": "number",
-                                                        "description": "Recommended price for trade entry."
+                                                        "description": "Recommended full USD price price for trade entry"
                                                     },
                                                     "stopLossPrice": {
                                                         "type": "number",
-                                                        "description": "Recommended stop loss price."
+                                                        "description": "Recommended full USD price for stop loss"
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Detailed trade plan including entry/exit strategies and risk-reward factors."
+                                                        "description": "Detailed trade plan including entry/exit strategies and risk-reward factors"
                                                     }
                                                 },
                                                 "required": ["entryTargetPrice", "stopLossPrice", "analysis"],

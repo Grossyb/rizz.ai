@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from bs4 import BeautifulSoup
+from io import BytesIO
 from google.cloud import storage
 import requests
+import base64
 import json
 import os
 
@@ -27,6 +29,42 @@ def get_txt_file(filename):
 
     text = blob.download_as_text()
     return text
+
+
+def get_instagram_profile_pic_and_name(url):
+    username = url.split('.com/')[1].split('/')[0]
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        print(f"Failed to fetch profile for {username}. Status code: {response.status_code}")
+        return None, None
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Get profile pic URL
+    profile_pic_tag = soup.find('meta', attrs={'property': 'og:image'})
+    profile_pic_url = profile_pic_tag['content'] if profile_pic_tag else None
+
+    # Get display name
+    title_tag = soup.find('meta', attrs={'property': 'og:title'})
+    display_name = title_tag['content'].split('(@')[0].strip() if title_tag else "Unknown"
+
+    if profile_pic_url:
+        pic_response = requests.get(profile_pic_url)
+        if pic_response.status_code == 200:
+            # Convert to base64
+            image_bytes = BytesIO(pic_response.content)
+            base64_str = base64.b64encode(image_bytes.read()).decode('utf-8')
+            return base64_str, display_name
+        else:
+            print("Failed to download profile picture.")
+            return None, display_name
+    else:
+        print("Couldn't find profile picture.")
+        return None, display_name
 
 
 @app.route("/getChartAnalysis", methods=["POST"])
@@ -409,6 +447,8 @@ def generate_response():
         description = data["description"]
         base64_image = data["base64Image"]
 
+        base64_image, display_name = get_instagram_profile_pic_and_name(url)
+
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
         payload = {
@@ -449,7 +489,7 @@ def generate_response():
                                     },
                                     "category": {
                                         "type": "string",
-                                        "enum": ["rizz", "nsfw", "romantic", "witty"],
+                                        "enum": ["rizz", "nsfw", "romantic", "end it"],
                                         "description": "Category that best describes the tone or intent of the response"
                                     }
                                 },
@@ -463,11 +503,11 @@ def generate_response():
                     },
                     "redFlags": {
                         "type": "string",
-                        "description": "A 3–4 sentence summary highlighting the most concerning behaviors or signals in the conversation, such as vagueness, avoidance, or inconsistent effort"
+                        "description": "A 3–4 sentence summary highlighting the most concerning behaviors or signals in the conversation, such as breadcrumbing, lovebombing, mixed signals, emotional unavailability"
                     },
                     "greenFlags": {
                         "type": "string",
-                        "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as consistency, emotional honesty, or respectful communication"
+                        "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as signs of real interest, emotional availability, consistency"
                     }
                 },
                 "required": ["responses", "interestLevel", "ghostScore", "emotionalAvailability", "redFlags", "greenFlags"],
@@ -495,6 +535,10 @@ def generate_response():
 
             try:
                 parsed_responses = json.loads(raw_content)
+                if base64_image:
+                    parsed_responses['profile_image_base64'] = base64_image
+                    parsed_responses['display_name'] = display_name
+
                 return jsonify(parsed_responses), 200
             except json.JSONDecodeError:
                 return jsonify({

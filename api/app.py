@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from bs4 import BeautifulSoup
 from google.cloud import storage
 import requests
 import json
@@ -404,13 +405,15 @@ def generate_response():
         if not data or "base64Image" not in data:
             return jsonify({"error": "Missing 'base64Image' in request JSON."}), 400
 
+        instagram_link = data["instagramLink"]
+        description = data["description"]
         base64_image = data["base64Image"]
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
         payload = {
             "model": "gpt-4o-mini-2024-07-18",
-            "temperature": 0.9,
+            "temperature": 0.8,
             "messages": [
                 {
                     "role": "user",
@@ -430,37 +433,45 @@ def generate_response():
                 }
             ],
             "response_format": {
-                "type": "json_schema",
-                "json_schema": {
-                    "name": "responses",
-                    "schema": {
-                        "type": "object",
-                        "properties": {
-                            "responses": {
-                                "type": "array",
-                                "description": "List of responses",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "text": {
-                                            "type": "string",
-                                            "description": "Dating app convo response"
-                                        },
-                                        "category": {
-                                            "type": "string",
-                                            "enum": ["rizz", "nsfw", "romantic", "witty"],
-                                            "description": "Category of the response"
-                                        },
+                "type": "object",
+                "properties": {
+                    "responses": {
+                        "type": "array",
+                        "description": "List of exactly 4 categorized convo responses",
+                        "minItems": 4,
+                        "maxItems": 4,
+                        "items": {
+                            "type": "object",
+                                "properties": {
+                                    "text": {
+                                        "type": "string",
+                                        "description": "Text message response pulled from the conversation"
                                     },
-                                    "required": ["text", "category"],
-                                    "additionalProperties": False
-                                }
-                            }
-                        },
-                        "required": ["articles"],
-                        "additionalProperties": False
+                                    "category": {
+                                        "type": "string",
+                                        "enum": ["rizz", "nsfw", "romantic", "witty"],
+                                        "description": "Category that best describes the tone or intent of the response"
+                                    }
+                                },
+                                "required": ["text", "category"],
+                                "additionalProperties": false
+                        }
+                    },
+                    "interestLevel": {
+                        "type": "number",
+                        "description": "Score from 0 to 10 indicating how interested the other person seems based on message tone, effort, and engagement"
+                    },
+                    "redFlags": {
+                        "type": "string",
+                        "description": "A 3–4 sentence summary highlighting the most concerning behaviors or signals in the conversation, such as vagueness, avoidance, or inconsistent effort"
+                    },
+                    "greenFlags": {
+                        "type": "string",
+                        "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as consistency, emotional honesty, or respectful communication"
                     }
-                }
+                },
+                "required": ["responses", "interestLevel", "ghostScore", "emotionalAvailability", "redFlags", "greenFlags"],
+                "additionalProperties": false
             },
         }
 

@@ -420,7 +420,7 @@ def generate_response():
 
         payload = {
             "model": "gpt-4o-mini-2024-07-18",
-            "temperature": 0.5,
+            "temperature": 0.7,
             "messages": [
                 {
                     "role": "user",
@@ -487,7 +487,8 @@ def generate_response():
                         },
                         "required": ["responses", "interestLevel", "breakdown", "redFlags", "greenFlags"],
                         "additionalProperties": False
-                    }
+                    },
+                    "strict": True
                 }
             }
         }

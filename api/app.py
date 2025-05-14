@@ -511,6 +511,10 @@ def generate_response():
                                 "type": "number",
                                 "description": "Score from 0 to 10 indicating how interested the other person seems based on message tone, effort, and engagement"
                             },
+                            "breakdown": {
+                                "type": "string",
+                                "description": "Analyze the screenshot and user input describing the situationship. Identify emotional cues, contradictions, message tone, ghosting patterns, power dynamics, or mismatched effort. Summarize what’s really going on in a concise paragraph and give a direct recommendation (e.g., keep going, cut it off, call it out, etc.)."
+                            },
                             "redFlags": {
                                 "type": "string",
                                 "description": "A 3–4 sentence summary highlighting the most concerning behaviors or signals in the conversation, such as breadcrumbing, lovebombing, mixed signals, emotional unavailability"
@@ -520,7 +524,7 @@ def generate_response():
                                 "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as signs of real interest, emotional availability, consistency"
                             }
                         },
-                        "required": ["responses", "interestLevel", "redFlags", "greenFlags"],
+                        "required": ["responses", "interestLevel", "breakdown", "redFlags", "greenFlags"],
                         "additionalProperties": False
                     }
                 }

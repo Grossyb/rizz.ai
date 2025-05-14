@@ -447,7 +447,8 @@ def generate_response():
         description = data["description"]
         base64_image = data["base64Image"]
 
-        base64_image, display_name = get_instagram_profile_pic_and_name(url)
+        if len(instagram_link) > 0:
+            base64_image_str, display_name = get_instagram_profile_pic_and_name(url)
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
@@ -535,8 +536,8 @@ def generate_response():
 
             try:
                 parsed_responses = json.loads(raw_content)
-                if base64_image:
-                    parsed_responses['profile_image_base64'] = base64_image
+                if base64_image_str:
+                    parsed_responses['profile_image_base64'] = base64_image_str
                     parsed_responses['display_name'] = display_name
 
                 return jsonify(parsed_responses), 200

@@ -144,7 +144,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Expert breakdown of price, market structure, liquidity zones, trend continuation vs. exhaustion, and key market behaviors"
+                                                        "description": "Start with a sentence that includes the ticker name and the current price. Then assess the current market structure. Identify whether the price is trending, consolidating, or reversing. Evaluate how the current price action fits within the larger trend. Identify signs of momentum exhaustion or build up and explain the reasoning behind it. Analyze volatility expansion or contraction. Highlight key liquidity zones where price is likely to see significant reactions. Identify Smart Money concepts such as previous swing highs/lows, order blocks, or fair value gaps. Explain where traders might look for reversals, liquidity grabs, or trend continuations. This analysis should be thorough and insightful."
                                                     }
                                                 },
                                                 "required": ["trendDirection", "trendStrength", "volume", "volatility", "analysis"],
@@ -165,7 +165,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Analysis of support and resistance levels, alignment with liquidity zones, and expected reactions"
+                                                        "description": "Only provide analysis if support & resistance levels are clearly drawn on the chart or can be inferred from market structure. DO NOT USE THE CURRENT PRICE LINE AS A SUPPORT OR RESISTANCE LEVEL. Identify historical price reaction zones, including swing highs, swing lows, etc. that align with current price action. Assess whether price is approaching strong resistance (selling pressure) or strong support (buying demand), or neither. Explain whether these levels are being tested repeatedly, strengthening their validity, or if they are likely to break due to declining reaction strength. Provide ACCURATE numbers for support & resistance levels."
                                                     }
                                                 },
                                                 "required": ["supportLevels", "resistanceLevels", "analysis"],
@@ -185,7 +185,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Explanation of how the pattern fits into the trend, including whether it signals continuation, exhaustion, or reversal"
+                                                                    "description": "Identify all candlestick patterns visible in the uploaded chart. For each pattern, describe its structure and explain what it typically signals in terms of market direction - whether reversal, continuation, or indecision. Mention the context in which each pattern appears, such as its location relative to recent price action or trend. If multiple patterns form in close proximity, note any significant clusters or sequences that may suggest a stronger shift in market sentiment."
                                                                 }
                                                             },
                                                             "required": ["patternName", "analysis"],
@@ -210,7 +210,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Analysis of how the indicator interacts with price action, key levels, and potential confluence with other signals"
+                                                                    "description": "Identify all technical indicators present in the uploaded chart. For each indicator, identify key signals such as overbought/oversold conditions, trend strength or divergence, etc. Note how these align with the current price action. Additionally, assess how the indicators interact when combined, determining if they confirm or reinforce each others' signals for a more robust view of market sentiment."
                                                                 }
                                                             },
                                                             "required": ["indicatorName", "analysis"],
@@ -231,7 +231,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Prediction of price action based on technical patterns and trends"
+                                                        "description": "Identify the timeframe (i.e. daily, hourly, weekly) in the uploaded chart. Choose a time horizon (short, medium, long) that offers the strongest confluence with the timeframe. Then, assess the potential market direction by utilizing the technical indicators, candlestick patterns, liquidity zones, order blocks, fair value gaps, etc. that were previously analyzed. Explain why this prediction makes sense given the context. If you anticipate any breakouts, mention those and explain why using realistic target ranges. If you anticipate and trend reversals, mention those and explain why by pinpointing potential reversal levels."
                                                     }
                                                 },
                                                 "required": ["timeHorizon", "analysis"],
@@ -250,7 +250,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Detailed trade plan including entry/exit strategies and risk-reward factors"
+                                                        "description": "Present a potential trade setup based on the prior analysis. Define a clear entry level and a stop loss. Explain the rationale behind these choices, and why this setup could work based on the previously analyzed technical indicators, candlestick patterns, liquidity zones, order blocks, fair value gaps, etc. Also, describe how traders should adjust stops or scale out based on evolving price action, and provide guidelines on when to take profits. If additional opportunities exist, mention them briefly after outlining the primary setup."
                                                     }
                                                 },
                                                 "required": ["entryTargetPrice", "stopLossPrice", "analysis"],

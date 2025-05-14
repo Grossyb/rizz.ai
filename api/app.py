@@ -449,8 +449,6 @@ def generate_response():
                             "responses": {
                                 "type": "array",
                                 "description": "List of exactly 4 categorized convo responses",
-                                "minItems": 4,
-                                "maxItems": 4,
                                 "items": {
                                     "type": "object",
                                         "properties": {

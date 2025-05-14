@@ -447,7 +447,7 @@ def generate_response():
         description = data["description"]
         base64_image = data["base64Image"]
 
-        if len(instagram_link) > 0:
+        if len(instagram_handle) > 0:
             base64_image_str, display_name = get_instagram_profile_pic_and_name(instagram_handle=instagram_handle)
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)

@@ -31,54 +31,6 @@ def get_txt_file(filename):
     return text
 
 
-def get_instagram_profile_pic_and_name(instagram_handle):
-    url = 'https://instagram.com/{}'.format(instagram_handle)
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/122.0.0.0 Safari/537.36"
-        ),
-        "Accept": (
-            "text/html,application/xhtml+xml,application/xml;q=0.9,"
-            "image/avif,image/webp,image/apng,*/*;q=0.8"
-        ),
-        "Accept-Language": "en-US,en;q=0.9",
-    }
-    response = requests.get(url, headers=headers)
-
-    if response.status_code != 200:
-        app.logger.debug(f"Failed to fetch profile for {instagram_handle}. Status code: {response.status_code}")
-        return None, None
-
-    app.logger.debug('JON SNOW!!')
-    app.logger.debug(f"Instagram HTML for {instagram_handle}:\n{response.text[:1000]}")
-
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    # Get profile pic URL
-    profile_pic_tag = soup.find('meta', attrs={'property': 'og:image'})
-    profile_pic_url = profile_pic_tag['content'] if profile_pic_tag else None
-
-    # Get display name
-    title_tag = soup.find('meta', attrs={'property': 'og:title'})
-    display_name = title_tag['content'].split('(@')[0].strip() if title_tag else "Unknown"
-
-    if profile_pic_url:
-        pic_response = requests.get(profile_pic_url)
-        if pic_response.status_code == 200:
-            # Convert to base64
-            image_bytes = BytesIO(pic_response.content)
-            base64_str = base64.b64encode(image_bytes.read()).decode('utf-8')
-            return base64_str, display_name
-        else:
-            app.logger.debug("Failed to download profile picture.")
-            return None, display_name
-    else:
-        app.logger.debug("Couldn't find profile picture.")
-        return None, display_name
-
-
 @app.route("/getChartAnalysis", methods=["POST"])
 def get_chart_analysis():
     try:
@@ -455,23 +407,14 @@ def generate_response():
         if not data or "base64Image" not in data:
             return jsonify({"error": "Missing 'base64Image' in request JSON."}), 400
 
-        instagram_handle = data["instagramHandle"]
         description = data["description"]
+        name = data["name"]
         base64_image = data["base64Image"]
-
-        app.logger.debug("INSTAGRAM HANDLE: {}".format(instagram_handle))
-
-        if len(instagram_handle) > 0:
-            app.logger.debug("GETTING PROFILE PIC!")
-            base64_image_str, display_name = get_instagram_profile_pic_and_name(instagram_handle=instagram_handle)
-
-        app.logger.debug("BASE64 IMG STRING: {}".format(base64_image_str))
-        app.logger.debug("DISPLAY NAME: {}".format(display_name))
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
-        if len(display_name) > 0:
-            rizz_prompt += f"\nBelow is user's description of their situationship:\n{description} with {display_name}"
+        if len(name) > 0:
+            rizz_prompt += f"\nBelow is user's description of their situationship:\n{description} with {name}"
         else:
             rizz_prompt += f"\nBelow is user's description of their situationship:\n{description}"
 
@@ -569,17 +512,6 @@ def generate_response():
 
             try:
                 parsed_responses = json.loads(raw_content)
-                if base64_image_str:
-                    parsed_responses['profile_image_base64'] = base64_image_str
-                    parsed_responses['name'] = display_name
-                    app.logger.debug('IG WORKED')
-                    app.logger.debug(parsed_responses)
-                else:
-                    parsed_responses['profile_image_base64'] = ''
-                    parsed_responses['name'] = ''
-                    app.logger.debug('IG DID NOT WORK')
-                    app.logger.debug(parsed_responses)
-
                 return jsonify(parsed_responses), 200
             except json.JSONDecodeError:
                 return jsonify({

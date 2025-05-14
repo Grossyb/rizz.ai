@@ -479,45 +479,50 @@ def generate_response():
                 }
             ],
             "response_format": {
-                "type": "object",
-                "properties": {
-                    "responses": {
-                        "type": "array",
-                        "description": "List of exactly 4 categorized convo responses",
-                        "minItems": 4,
-                        "maxItems": 4,
-                        "items": {
-                            "type": "object",
-                                "properties": {
-                                    "text": {
-                                        "type": "string",
-                                        "description": "Text message response pulled from the conversation"
-                                    },
-                                    "category": {
-                                        "type": "string",
-                                        "enum": ["rizz", "nsfw", "romantic", "end it"],
-                                        "description": "Category that best describes the tone or intent of the response"
-                                    }
-                                },
-                                "required": ["text", "category"],
-                                "additionalProperties": False
-                        }
-                    },
-                    "interestLevel": {
-                        "type": "number",
-                        "description": "Score from 0 to 10 indicating how interested the other person seems based on message tone, effort, and engagement"
-                    },
-                    "redFlags": {
-                        "type": "string",
-                        "description": "A 3–4 sentence summary highlighting the most concerning behaviors or signals in the conversation, such as breadcrumbing, lovebombing, mixed signals, emotional unavailability"
-                    },
-                    "greenFlags": {
-                        "type": "string",
-                        "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as signs of real interest, emotional availability, consistency"
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "decode_situationship",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "responses": {
+                                "type": "array",
+                                "description": "List of exactly 4 categorized convo responses",
+                                "minItems": 4,
+                                "maxItems": 4,
+                                "items": {
+                                    "type": "object",
+                                        "properties": {
+                                            "text": {
+                                                "type": "string",
+                                                "description": "Text message response pulled from the conversation"
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "enum": ["rizz", "nsfw", "romantic", "end it"],
+                                                "description": "Category that best describes the tone or intent of the response"
+                                            }
+                                        },
+                                        "required": ["text", "category"],
+                                        "additionalProperties": False
+                                }
+                            },
+                            "interestLevel": {
+                                "type": "number",
+                                "description": "Score from 0 to 10 indicating how interested the other person seems based on message tone, effort, and engagement"
+                            },
+                            "redFlags": {
+                                "type": "string",
+                                "description": "A 3–4 sentence summary highlighting the most concerning behaviors or signals in the conversation, such as breadcrumbing, lovebombing, mixed signals, emotional unavailability"
+                            },
+                            "greenFlags": {
+                                "type": "string",
+                                "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as signs of real interest, emotional availability, consistency"
+                            }
+                        },
+                        "required": ["responses", "interestLevel", "redFlags", "greenFlags"],
+                        "additionalProperties": False
                     }
-                },
-                "required": ["responses", "interestLevel", "redFlags", "greenFlags"],
-                "additionalProperties": False
             },
         }
 

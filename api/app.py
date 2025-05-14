@@ -523,7 +523,8 @@ def generate_response():
                         "required": ["responses", "interestLevel", "redFlags", "greenFlags"],
                         "additionalProperties": False
                     }
-            },
+                }
+            }
         }
 
         headers = {

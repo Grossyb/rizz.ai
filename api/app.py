@@ -528,7 +528,7 @@ def generate_response():
 
         resp = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=30)
         if resp.status_code != 200:
-            return jsonify({"error": resp,text, "details": resp.text}), 500
+            return jsonify({"error": resp.text}), 500
 
         response_data = resp.json()
         if (

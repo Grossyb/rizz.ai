@@ -39,7 +39,7 @@ def get_instagram_profile_pic_and_name(instagram_handle):
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(f"Failed to fetch profile for {instagram_handle}. Status code: {response.status_code}")
+        app.logger.debug(f"Failed to fetch profile for {instagram_handle}. Status code: {response.status_code}")
         return None, None
 
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -60,10 +60,10 @@ def get_instagram_profile_pic_and_name(instagram_handle):
             base64_str = base64.b64encode(image_bytes.read()).decode('utf-8')
             return base64_str, display_name
         else:
-            print("Failed to download profile picture.")
+            app.logger.debug("Failed to download profile picture.")
             return None, display_name
     else:
-        print("Couldn't find profile picture.")
+        app.logger.debug("Couldn't find profile picture.")
         return None, display_name
 
 
@@ -447,8 +447,14 @@ def generate_response():
         description = data["description"]
         base64_image = data["base64Image"]
 
+        app.logger.debug("INSTAGRAM HANDLE: {}".format(instagram_handle))
+
         if len(instagram_handle) > 0:
+            app.logger.debug("GETTING PROFILE PIC!")
             base64_image_str, display_name = get_instagram_profile_pic_and_name(instagram_handle=instagram_handle)
+
+        app.logger.debug("BASE64 IMG STRING: {}".format(base64_image_str))
+        app.logger.debug("DISPLAY NAME: {}".format(display_name))
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
@@ -554,9 +560,13 @@ def generate_response():
                 if base64_image_str:
                     parsed_responses['profile_image_base64'] = base64_image_str
                     parsed_responses['name'] = display_name
+                    app.logger.debug('IG WORKED')
+                    app.logger.debug(parsed_responses)
                 else:
                     parsed_responses['profile_image_base64'] = ''
                     parsed_responses['name'] = ''
+                    app.logger.debug('IG DID NOT WORK')
+                    app.logger.debug(parsed_responses)
 
                 return jsonify(parsed_responses), 200
             except json.JSONDecodeError:

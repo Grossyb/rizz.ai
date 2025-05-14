@@ -34,13 +34,18 @@ def get_txt_file(filename):
 def get_instagram_profile_pic_and_name(instagram_handle):
     url = 'https://instagram.com/{}'.format(instagram_handle)
     headers = {
-        "User-Agent": "Mozilla/5.0"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept": "text/html,application/xhtml+xml"
     }
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
         app.logger.debug(f"Failed to fetch profile for {instagram_handle}. Status code: {response.status_code}")
         return None, None
+
+    app.logger.debug('JON SNOW!!')
+    app.logger.debug(f"Instagram HTML for {instagram_handle}:\n{response.text[:1000]}")
 
     soup = BeautifulSoup(response.content, 'html.parser')
 

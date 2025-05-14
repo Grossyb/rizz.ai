@@ -452,6 +452,11 @@ def generate_response():
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 
+        if len(display_name) > 0:
+            rizz_prompt += f"\nBelow is user's description of their situationship:\n{description} with {display_name}"
+        else:
+            rizz_prompt += f"\nBelow is user's description of their situationship:\n{description}"
+
         payload = {
             "model": "gpt-4o-mini-2024-07-18",
             "temperature": 0.8,
@@ -511,7 +516,7 @@ def generate_response():
                         "description": "A 3–4 sentence summary highlighting positive behaviors in the conversation, such as signs of real interest, emotional availability, consistency"
                     }
                 },
-                "required": ["responses", "interestLevel", "ghostScore", "emotionalAvailability", "redFlags", "greenFlags"],
+                "required": ["responses", "interestLevel", "redFlags", "greenFlags"],
                 "additionalProperties": False
             },
         }

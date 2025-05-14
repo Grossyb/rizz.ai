@@ -549,7 +549,10 @@ def generate_response():
                 parsed_responses = json.loads(raw_content)
                 if base64_image_str:
                     parsed_responses['profile_image_base64'] = base64_image_str
-                    parsed_responses['display_name'] = display_name
+                    parsed_responses['name'] = display_name
+                else:
+                    parsed_responses['profile_image_base64'] = ''
+                    parsed_responses['name'] = ''
 
                 return jsonify(parsed_responses), 200
             except json.JSONDecodeError:

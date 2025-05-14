@@ -31,15 +31,15 @@ def get_txt_file(filename):
     return text
 
 
-def get_instagram_profile_pic_and_name(url):
-    username = url.split('.com/')[1].split('/')[0]
+def get_instagram_profile_pic_and_name(instagram_handle):
+    url = 'https://instagram.com/{}'.format(instagram_handle)
     headers = {
         "User-Agent": "Mozilla/5.0"
     }
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(f"Failed to fetch profile for {username}. Status code: {response.status_code}")
+        print(f"Failed to fetch profile for {instagram_handle}. Status code: {response.status_code}")
         return None, None
 
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -443,12 +443,12 @@ def generate_response():
         if not data or "base64Image" not in data:
             return jsonify({"error": "Missing 'base64Image' in request JSON."}), 400
 
-        instagram_link = data["instagramLink"]
+        instagram_handle = data["instagramHandle"]
         description = data["description"]
         base64_image = data["base64Image"]
 
         if len(instagram_link) > 0:
-            base64_image_str, display_name = get_instagram_profile_pic_and_name(url)
+            base64_image_str, display_name = get_instagram_profile_pic_and_name(instagram_handle=instagram_handle)
 
         rizz_prompt = get_txt_file(RIZZ_PROMPT_FILE_PATH)
 

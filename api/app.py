@@ -495,7 +495,7 @@ def generate_response():
                                     }
                                 },
                                 "required": ["text", "category"],
-                                "additionalProperties": false
+                                "additionalProperties": False
                         }
                     },
                     "interestLevel": {
@@ -512,7 +512,7 @@ def generate_response():
                     }
                 },
                 "required": ["responses", "interestLevel", "ghostScore", "emotionalAvailability", "redFlags", "greenFlags"],
-                "additionalProperties": false
+                "additionalProperties": False
             },
         }
 

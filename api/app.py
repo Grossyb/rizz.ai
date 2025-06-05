@@ -249,7 +249,7 @@ def get_chart_analysis():
             "Authorization": f"Bearer {CANDLESTICK_OPENAI_API_KEY}"
         }
 
-        response = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=30)
+        response = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
             return jsonify({"error": "OpenAI API error", "details": response.text}), 500
 
@@ -364,7 +364,7 @@ def get_articles():
             "Content-Type": "application/json"
         }
 
-        response = requests.post(PERPLEXITY_BASE_URL, json=payload, headers=headers, timeout=30)
+        response = requests.post(PERPLEXITY_BASE_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
             return jsonify({"error": "Perplexity API error", "details": response.text}), 500
 
@@ -496,7 +496,7 @@ def generate_response():
             "Authorization": f"Bearer {RIZZ_OPENAI_API_KEY}"
         }
 
-        resp = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=30)
+        resp = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=60)
         if resp.status_code != 200:
             return jsonify({"error": resp.text}), 500
 

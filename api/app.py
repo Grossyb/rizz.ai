@@ -41,9 +41,15 @@ def get_chart_analysis():
         base64_image = data["base64Image"]
         prompt = get_txt_file(OPENAI_PROMPT_FILE_PATH)
 
+        trading_styles = ", ".join(data.get("tradingStyles", ["Not Sure"]))
+        risk = data.get("risk", "Not Sure")
+
+        prompt = f"User trading style(s): {trading_styles}. User risk preference: {risk}.\n\n{prompt}"
+
         payload = {
             "model": "gpt-4o-mini-2024-07-18",
-            "temperature": 0.5,
+            "temperature": 0.6,
+            "top_p": 0.9,
             "messages": [
                 {
                     "role": "user",
@@ -108,7 +114,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Start with a sentence that includes the ticker name and the current price. Then assess the current market structure. Identify whether the price is trending, consolidating, or reversing. Evaluate how the current price action fits within the larger trend. Identify signs of momentum exhaustion or build up and explain the reasoning behind it. Analyze volatility expansion or contraction. Highlight key liquidity zones where price is likely to see significant reactions. Identify Smart Money concepts such as previous swing highs/lows, order blocks, or fair value gaps. Explain where traders might look for reversals, liquidity grabs, or trend continuations. This analysis should be thorough and insightful."
+                                                        "description": "Start with a sentence that includes the ticker name and the current price (if legible, otherwise say not legible). Then assess the current market structure. Identify whether the price is trending, consolidating, or reversing. Evaluate how the current price action fits within the larger trend. Identify signs of momentum exhaustion or build up and explain the reasoning behind it. Analyze volatility expansion or contraction. Highlight key liquidity zones where price is likely to see significant reactions. Mention Smart Money concepts (previous swing highs/lows, order blocks, fair value gaps) only if clearly visible on the chart. Conclude with a Because: clause citing 2–3 on-chart anchors."
                                                     }
                                                 },
                                                 "required": ["trendDirection", "trendStrength", "volume", "volatility", "analysis"],
@@ -129,7 +135,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Only provide analysis if support & resistance levels are clearly drawn on the chart or can be inferred from market structure. DO NOT USE THE CURRENT PRICE LINE AS A SUPPORT OR RESISTANCE LEVEL. Identify historical price reaction zones, including swing highs, swing lows, etc. that align with current price action. Assess whether price is approaching strong resistance (selling pressure) or strong support (buying demand), or neither. Explain whether these levels are being tested repeatedly, strengthening their validity, or if they are likely to break due to declining reaction strength. Provide ACCURATE numbers for support & resistance levels."
+                                                        "description": "Only provide analysis if support & resistance levels are clearly drawn or confidently inferred from visible market structure. Do not use the current price line as a support or resistance level. Provide accurate numbers only if legible; otherwise leave supportLevels and resistanceLevels arrays empty. Explain if reactions are strengthening or weakening. Conclude with a Because: clause citing visible anchors."
                                                     }
                                                 },
                                                 "required": ["supportLevels", "resistanceLevels", "analysis"],
@@ -149,7 +155,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Identify all candlestick patterns visible in the uploaded chart. For each pattern, describe its structure and explain what it typically signals in terms of market direction - whether reversal, continuation, or indecision. Mention the context in which each pattern appears, such as its location relative to recent price action or trend. If multiple patterns form in close proximity, note any significant clusters or sequences that may suggest a stronger shift in market sentiment."
+                                                                    "description": "Identify candlestick patterns only if their full structure is clearly visible. For each, describe its structure and typical implication in context. If no clear patterns are visible, return an empty recognizedPatterns array. Conclude each with a Because: clause citing visible cues."
                                                                 }
                                                             },
                                                             "required": ["patternName", "analysis"],
@@ -174,7 +180,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Identify all technical indicators present in the uploaded chart. For each indicator, identify key signals such as overbought/oversold conditions, trend strength or divergence, etc. Note how these align with the current price action. Additionally, assess how the indicators interact when combined, determining if they confirm or reinforce each others' signals for a more robust view of market sentiment."
+                                                                    "description": "Only include indicators that are visibly present on the chart (e.g., RSI, MACD, moving averages, VWAP, Bollinger Bands). If no indicators are visible, return an empty selectedIndicators array. For each indicator, describe its signal in context and end with a Because: clause citing cues from the indicator pane."
                                                                 }
                                                             },
                                                             "required": ["indicatorName", "analysis"],
@@ -195,7 +201,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Identify the timeframe (i.e. daily, hourly, weekly) in the uploaded chart. Choose a time horizon (short, medium, long) that offers the strongest confluence with the timeframe. Then, assess the potential market direction by utilizing the technical indicators, candlestick patterns, liquidity zones, order blocks, fair value gaps, etc. that were previously analyzed. Explain why this prediction makes sense given the context. If you anticipate any breakouts, mention those and explain why using realistic target ranges. If you anticipate and trend reversals, mention those and explain why by pinpointing potential reversal levels."
+                                                        "description": "Identify the timeframe if it is clearly visible; if not, state 'timeframe uncertain.' Choose a time horizon (short, medium, long) consistent with the chart. Assess likely market direction using visible price action, candlestick patterns, liquidity zones, order blocks, or fair value gaps. Mention breakouts or reversals only if supported by what is on the chart. Conclude with a Because: clause citing 2 visible reasons."
                                                     }
                                                 },
                                                 "required": ["timeHorizon", "analysis"],
@@ -214,7 +220,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Present a potential trade setup based on the prior analysis. Define a clear entry level and a stop loss. Explain the rationale behind these choices, and why this setup could work based on the previously analyzed technical indicators, candlestick patterns, liquidity zones, order blocks, fair value gaps, etc. Also, describe how traders should adjust stops or scale out based on evolving price action, and provide guidelines on when to take profits. If additional opportunities exist, mention them briefly after outlining the primary setup."
+                                                        "description": "Present one potential trade setup aligned to the user's trading style(s) and risk if provided, otherwise default to a balanced setup. Define a clear entry and stop loss only if exact prices are legible; otherwise describe them relative to visible structures (e.g., below swing low, at order block edge). Explain rationale, risk management, and profit taking. If timeframe mismatches the user's style, note that. Conclude with a Because: clause tying entry/stop/targets to visible structures."
                                                     }
                                                 },
                                                 "required": ["entryTargetPrice", "stopLossPrice", "analysis"],

@@ -48,7 +48,7 @@ def get_chart_analysis():
         app.logger.debug(prompt)
 
         payload = {
-            "model": "gpt-5-mini",
+            "model": "gpt-5-mini-2025-08-07",
             "temperature": 0.6,
             "top_p": 0.9,
             "messages": [
@@ -426,7 +426,7 @@ def generate_response():
             rizz_prompt += f"\nBelow is user's description of their situationship:\n{description}"
 
         payload = {
-            "model": "gpt-5-mini",
+            "model": "gpt-5-mini-2025-08-07",
             "temperature": 0.7,
             "messages": [
                 {

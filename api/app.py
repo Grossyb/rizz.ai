@@ -259,6 +259,8 @@ def get_chart_analysis():
 
         response = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
+            app.logger.debug('JON SNOW!!!')
+            app.logger.debug(response.json)
             return jsonify({"error": "OpenAI API error", "details": response.json()}), 500
 
         openai_json = response.json()

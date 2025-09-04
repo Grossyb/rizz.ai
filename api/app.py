@@ -255,9 +255,11 @@ def get_chart_analysis():
             "Authorization": f"Bearer {CANDLESTICK_OPENAI_API_KEY}"
         }
 
+        app.logger.debug('MADE IT HERE')
+
         response = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
-            return jsonify({"error": "OpenAI API error", "details": response.text}), 500
+            return jsonify({"error": "OpenAI API error", "details": response.json()}), 500
 
         openai_json = response.json()
         if (
@@ -372,7 +374,7 @@ def get_articles():
 
         response = requests.post(PERPLEXITY_BASE_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
-            return jsonify({"error": "Perplexity API error", "details": response.text}), 500
+            return jsonify({"error": "Perplexity API error", "details": response.json()}), 500
 
         response_json = response.json()
         if ("choices" in response_json and
@@ -504,7 +506,7 @@ def generate_response():
 
         resp = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=60)
         if resp.status_code != 200:
-            return jsonify({"error": resp.text}), 500
+            return jsonify({"error": resp.json()}), 500
 
         response_data = resp.json()
         if (

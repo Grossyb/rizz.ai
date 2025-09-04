@@ -45,7 +45,6 @@ def get_chart_analysis():
         risk = data.get("risk", "Not Sure")
 
         prompt = f"User trading style(s): {trading_styles}. User risk preference: {risk}.\n\n{prompt}"
-        app.logger.debug(prompt)
 
         payload = {
             "model": "gpt-5-mini-2025-08-07",

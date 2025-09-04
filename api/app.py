@@ -47,7 +47,7 @@ def get_chart_analysis():
         prompt = f"User trading style(s): {trading_styles}. User risk preference: {risk}.\n\n{prompt}"
 
         payload = {
-            "model": "gpt-4o-mini-2024-07-18",
+            "model": "gpt-4o-2024-05-13",
             "temperature": 0.6,
             "top_p": 0.9,
             "messages": [
@@ -114,7 +114,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Start with a sentence that includes the ticker name and the current price (if legible, otherwise say not legible). Then assess the current market structure. Identify whether the price is trending, consolidating, or reversing. Evaluate how the current price action fits within the larger trend. Identify signs of momentum exhaustion or build up and explain the reasoning behind it. Analyze volatility expansion or contraction. Highlight key liquidity zones where price is likely to see significant reactions. Mention Smart Money concepts (previous swing highs/lows, order blocks, fair value gaps) only if clearly visible on the chart. Conclude with a Because: clause citing 2–3 on-chart anchors."
+                                                        "description": "Start with a sentence that includes the ticker name and the current price (if legible, otherwise say not legible). Then assess the current market structure. Identify whether the price is trending, consolidating, or reversing. Evaluate how the current price action fits within the larger trend. Identify signs of momentum exhaustion or build up and explain the reasoning behind it. Analyze volatility expansion or contraction. Highlight key liquidity zones where price is likely to see significant reactions. Mention Smart Money concepts (previous swing highs/lows, order blocks, fair value gaps) only if clearly visible on the chart."
                                                     }
                                                 },
                                                 "required": ["trendDirection", "trendStrength", "volume", "volatility", "analysis"],
@@ -135,7 +135,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Only provide analysis if support & resistance levels are clearly drawn or confidently inferred from visible market structure. Do not use the current price line as a support or resistance level. Provide accurate numbers only if legible; otherwise leave supportLevels and resistanceLevels arrays empty. Explain if reactions are strengthening or weakening. Conclude with a Because: clause citing visible anchors."
+                                                        "description": "Only provide analysis if support & resistance levels are clearly drawn or confidently inferred from visible market structure. Do not use the current price line as a support or resistance level. Provide accurate numbers only if legible; otherwise leave supportLevels and resistanceLevels arrays empty. Explain if reactions are strengthening or weakening."
                                                     }
                                                 },
                                                 "required": ["supportLevels", "resistanceLevels", "analysis"],
@@ -155,7 +155,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Identify candlestick patterns only if their full structure is clearly visible. For each, describe its structure and typical implication in context. If no clear patterns are visible, return an empty recognizedPatterns array. Conclude each with a Because: clause citing visible cues."
+                                                                    "description": "Identify candlestick patterns only if their full structure is clearly visible. For each, describe its structure and typical implication in context. If no clear patterns are visible, return an empty recognizedPatterns array."
                                                                 }
                                                             },
                                                             "required": ["patternName", "analysis"],
@@ -180,7 +180,7 @@ def get_chart_analysis():
                                                                 },
                                                                 "analysis": {
                                                                     "type": "string",
-                                                                    "description": "Only include indicators that are visibly present on the chart (e.g., RSI, MACD, moving averages, VWAP, Bollinger Bands). If no indicators are visible, return an empty selectedIndicators array. For each indicator, describe its signal in context and end with a Because: clause citing cues from the indicator pane."
+                                                                    "description": "Only include indicators that are visibly present on the chart (e.g., RSI, MACD, moving averages, VWAP, Bollinger Bands). If no indicators are visible, return an empty selectedIndicators array. For each indicator, describe its signal in context and end with a"
                                                                 }
                                                             },
                                                             "required": ["indicatorName", "analysis"],
@@ -201,7 +201,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Identify the timeframe if it is clearly visible; if not, state 'timeframe uncertain.' Choose a time horizon (short, medium, long) consistent with the chart. Assess likely market direction using visible price action, candlestick patterns, liquidity zones, order blocks, or fair value gaps. Mention breakouts or reversals only if supported by what is on the chart. Conclude with a Because: clause citing 2 visible reasons."
+                                                        "description": "Identify the timeframe if it is clearly visible; if not, state 'timeframe uncertain.' Choose a time horizon (short, medium, long) consistent with the chart. Assess likely market direction using visible price action, candlestick patterns, liquidity zones, order blocks, or fair value gaps. Mention breakouts or reversals only if supported by what is on the chart."
                                                     }
                                                 },
                                                 "required": ["timeHorizon", "analysis"],
@@ -220,7 +220,7 @@ def get_chart_analysis():
                                                     },
                                                     "analysis": {
                                                         "type": "string",
-                                                        "description": "Present one potential trade setup aligned to the user's trading style(s) and risk if provided, otherwise default to a balanced setup. Define a clear entry and stop loss only if exact prices are legible; otherwise describe them relative to visible structures (e.g., below swing low, at order block edge). Explain rationale, risk management, and profit taking. If timeframe mismatches the user's style, note that. Conclude with a Because: clause tying entry/stop/targets to visible structures."
+                                                        "description": "Present one potential trade setup aligned to the user's trading style(s) and risk if provided, otherwise default to a balanced setup. Define a clear entry and stop loss only if exact prices are legible; otherwise describe them relative to visible structures (e.g., below swing low, at order block edge). Explain rationale, risk management, and profit taking. If timeframe mismatches the user's style, note that."
                                                     }
                                                 },
                                                 "required": ["entryTargetPrice", "stopLossPrice", "analysis"],
@@ -425,7 +425,7 @@ def generate_response():
             rizz_prompt += f"\nBelow is user's description of their situationship:\n{description}"
 
         payload = {
-            "model": "gpt-4o-mini-2024-07-18",
+            "model": "gpt-4o-2024-05-13",
             "temperature": 0.7,
             "messages": [
                 {

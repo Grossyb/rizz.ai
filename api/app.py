@@ -45,9 +45,10 @@ def get_chart_analysis():
         risk = data.get("risk", "Not Sure")
 
         prompt = f"User trading style(s): {trading_styles}. User risk preference: {risk}.\n\n{prompt}"
+        app.logger.debug(prompt)
 
         payload = {
-            "model": "gpt-4o-2024-05-13",
+            "model": "gpt-5-mini",
             "temperature": 0.6,
             "top_p": 0.9,
             "messages": [
@@ -425,7 +426,7 @@ def generate_response():
             rizz_prompt += f"\nBelow is user's description of their situationship:\n{description}"
 
         payload = {
-            "model": "gpt-4o-2024-05-13",
+            "model": "gpt-5-mini",
             "temperature": 0.7,
             "messages": [
                 {

@@ -48,8 +48,6 @@ def get_chart_analysis():
 
         payload = {
             "model": "gpt-5-mini-2025-08-07",
-            "temperature": 0.6,
-            "top_p": 0.9,
             "messages": [
                 {
                     "role": "user",
@@ -254,8 +252,6 @@ def get_chart_analysis():
             "Content-Type": "application/json",
             "Authorization": f"Bearer {CANDLESTICK_OPENAI_API_KEY}"
         }
-
-        app.logger.debug('MADE IT HERE')
 
         response = requests.post(OPENAI_BASE_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
